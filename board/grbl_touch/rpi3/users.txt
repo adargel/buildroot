@@ -1,1 +1,1 @@
-grbl -1 grbl -1 - /home/grbl /bin/sh uucp,dialout
+grbl -1 grbl -1 - /home/grbl /bin/sh uucp,dialout,users,video
