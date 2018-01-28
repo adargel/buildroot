@@ -1,0 +1,9 @@
+kernel=zImage
+disable_overscan=1
+gpu_mem=256
+hdmi_cvt 800 480 60 6 0 0 0
+hdmi_group=2
+hdmi_mode=87
+hdmi_drive=2
+display_rotate=2
+dtoverlay=pi3-miniuart-bt
