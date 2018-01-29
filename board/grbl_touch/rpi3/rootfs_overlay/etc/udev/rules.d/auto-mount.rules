@@ -1,19 +1,20 @@
-
-KERNEL!="sd[a-z][0-9]|mmcblk[0-9]p[0-9]", GOTO="auto_mount_end"
+KERNEL!="sd[a-z][0-9]", GOTO="auto_mount_end"
 
 # get fs information about the device"
-# ACTION=="add", IMPORT{program}="/sbin/blkid %N"
-#
-# # create the mount directory name
-# ENV{ID_FS_LABEL}!="", ENV{mount_dir}="/media/%E{ID_FS_LABEL}"
-# ENV{ID_FS_LABEL}=="", ENV{mount_dir}="/media/%E{ID_FS_UUID}"
-#
-# # mount the device to the mount directory
-# ACTION=="add", RUN+="/bin/mkdir -p %E{mount_dir}", RUN+="/bin/mount %N %E{mount_dir}"
-#
-# # cleanup on remove
-# ACTION=="remove", ENV{mount_dir}!="", RUN+="/bin/umount %E{mount_dir}", RUN+="/bin/rmdir %E{mount_dir}"
-#
-# # done
-# LABEL="auto_mount_end"
-#
+ACTION=="add", IMPORT{program}="/sbin/blkid %N"
+
+# create the mount directory name
+ENV{ID_FS_LABEL}!="", ENV{mount_dir}="/media/%E{ID_FS_LABEL}"
+ENV{ID_FS_LABEL}=="", ENV{mount_dir}="/media/%E{ID_FS_UUID}"
+
+# set special options for ntfs|vfat file systems
+ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="%E{mount_options},utf8,gid=100,umask=002"
+
+# mount the device to the mount directory
+ACTION=="add", RUN+="/bin/mkdir -p %E{mount_dir}", RUN+="/bin/mount -o %E{mount_options} %N %E{mount_dir}"
+
+# cleanup on remove
+ACTION=="remove", ENV{mount_dir}!="", RUN+="/bin/umount %E{mount_dir}", RUN+="/bin/rmdir %E{mount_dir}"
+
+# done
+LABEL="auto_mount_end"
