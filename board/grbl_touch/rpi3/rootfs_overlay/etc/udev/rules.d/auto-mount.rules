@@ -7,7 +7,8 @@ ACTION=="add", IMPORT{program}="/sbin/blkid %N"
 ENV{ID_FS_LABEL}!="", ENV{mount_dir}="/media/%E{ID_FS_LABEL}"
 ENV{ID_FS_LABEL}=="", ENV{mount_dir}="/media/%E{ID_FS_UUID}"
 
-# set special options for ntfs|vfat file systems
+# set special options
+ACTION=="add", ENV{mount_options}="%E{mount_options},sync"
 ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="%E{mount_options},utf8,gid=100,umask=002"
 
 # mount the device to the mount directory
