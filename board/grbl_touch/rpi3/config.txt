@@ -7,3 +7,5 @@ hdmi_mode=87
 hdmi_drive=2
 display_rotate=2
 dtoverlay=pi3-miniuart-bt
+disable_splash=1
+avoid_warnings=1
